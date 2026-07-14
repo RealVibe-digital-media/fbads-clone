@@ -1,0 +1,290 @@
+export interface Campaign {
+  id: string;
+  name: string;
+  on: boolean;
+  delivery: "active" | "off";
+  /** chips shown in the Actions column */
+  recommendations?: number;
+  warnings?: number;
+  hasExport?: boolean;
+  results: number | null;
+  resultLabel: string;
+  costPerResult: number | null;
+  costLabel: string;
+  /** null budget = "Using ad set budget" */
+  budget: number | null;
+  amountSpent: number;
+  impressions: number | null;
+  reach: number | null;
+  frequency: number | null;
+  cpm: number | null;
+  linkClicks: number | null;
+  ends: string;
+}
+
+export interface CampaignsMeta {
+  accountName: string;
+  accountId: string;
+  opportunityScore: number;
+  totalCampaigns: number;
+  dateRange: string;
+}
+
+export const campaignsMeta: CampaignsMeta = {
+  accountName: "RV 2",
+  accountId: "1609980979625964",
+  opportunityScore: 59,
+  totalCampaigns: 111,
+  dateRange: "Last 30 days: 14 Jun 2026 - 13 Jul 2026",
+};
+
+export const campaigns: Campaign[] = [
+  {
+    id: "c1",
+    name: "Delphine - Gurgaon",
+    on: true,
+    delivery: "active",
+    recommendations: 4,
+    results: 172,
+    resultLabel: "Leads (Form)",
+    costPerResult: 2582.01,
+    costLabel: "Per lead (form)",
+    budget: 15769.23,
+    amountSpent: 444105.04,
+    impressions: 988855,
+    reach: 271861,
+    frequency: 3.64,
+    cpm: 449.11,
+    linkClicks: 7964,
+    ends: "Ongoing",
+  },
+  {
+    id: "c2",
+    name: "Central Park Bignonia - NIche Audience",
+    on: true,
+    delivery: "active",
+    warnings: 1,
+    recommendations: 7,
+    results: 135,
+    resultLabel: "Leads (Form)",
+    costPerResult: 2398.56,
+    costLabel: "Per lead (form)",
+    budget: 15000.0,
+    amountSpent: 323805.86,
+    impressions: 381089,
+    reach: 108474,
+    frequency: 3.51,
+    cpm: 849.69,
+    linkClicks: 3049,
+    ends: "Ongoing",
+  },
+  {
+    id: "c3",
+    name: "DDJAY -Narendra Techno Park - otp",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Lead (Form)",
+    costPerResult: null,
+    costLabel: "Per lead (form)",
+    budget: 1200.0,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c4",
+    name: "Orchard 10%",
+    on: false,
+    delivery: "off",
+    hasExport: true,
+    results: 6,
+    resultLabel: "Leads (Form)",
+    costPerResult: 1356.38,
+    costLabel: "Per lead (form)",
+    budget: null,
+    amountSpent: 8138.3,
+    impressions: 54809,
+    reach: 37449,
+    frequency: 1.46,
+    cpm: 148.48,
+    linkClicks: 431,
+    ends: "Ongoing",
+  },
+  {
+    id: "c5",
+    name: "RealVibe _Awareness_campaign",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Ad recall lift",
+    costPerResult: null,
+    costLabel: "Per ad recall lift",
+    budget: null,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "31 Dec 2025",
+  },
+  {
+    id: "c6",
+    name: "Awareness Campaign - StudioVerse new (D&G)",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Ad recall lift",
+    costPerResult: null,
+    costLabel: "Per ad recall lift",
+    budget: null,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c7",
+    name: "Studio Verse 4.0 Awareness New",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Ad recall lift",
+    costPerResult: null,
+    costLabel: "Per ad recall lift",
+    budget: null,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c8",
+    name: "Studio Verse 5.0 Lead gen",
+    on: false,
+    delivery: "off",
+    hasExport: true,
+    results: 66,
+    resultLabel: "Leads (Form)",
+    costPerResult: 3678.06,
+    costLabel: "Per lead (form)",
+    budget: null,
+    amountSpent: 242751.8,
+    impressions: 947517,
+    reach: 264657,
+    frequency: 3.58,
+    cpm: 256.2,
+    linkClicks: 8566,
+    ends: "Ongoing",
+  },
+  {
+    id: "c9",
+    name: "StudioVerse Event Campaign (21-24)",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Reach",
+    costPerResult: null,
+    costLabel: "Per 1,000 people reached",
+    budget: null,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "24 Jun 2025",
+  },
+  {
+    id: "c10",
+    name: "Orchard Retarget - Whatsapp",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Messaging conversations started",
+    costPerResult: null,
+    costLabel: "Per messaging conversation started",
+    budget: 800.0,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c11",
+    name: "Orchard Site Visit - Insta",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Messaging conversations started",
+    costPerResult: null,
+    costLabel: "Per messaging conversation started",
+    budget: 1000.0,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c12",
+    name: "Orchard Site Visit",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Website lead",
+    costPerResult: null,
+    costLabel: "Per lead",
+    budget: 800.0,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+  {
+    id: "c13",
+    name: "Omaxe 2 – Copy",
+    on: false,
+    delivery: "off",
+    results: null,
+    resultLabel: "Lead (Form)",
+    costPerResult: null,
+    costLabel: "Per lead (form)",
+    budget: 5500.0,
+    amountSpent: 0,
+    impressions: null,
+    reach: null,
+    frequency: null,
+    cpm: null,
+    linkClicks: null,
+    ends: "Ongoing",
+  },
+];
+
+const nf = new Intl.NumberFormat("en-US");
+const nf2 = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+export const fmtInt = (n: number) => nf.format(n);
+export const fmtMoney = (n: number) => `₹${nf2.format(n)}`;

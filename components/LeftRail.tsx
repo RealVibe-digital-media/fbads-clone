@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Bell,
   Gauge,
@@ -23,13 +25,20 @@ import {
 } from "lucide-react";
 import styles from "./LeftRail.module.css";
 
-const NAV = [
+const NAV: {
+  key: string;
+  label: string;
+  Icon: typeof Gauge;
+  badge?: number;
+  href?: string;
+  activePrefix?: string;
+}[] = [
   { key: "overview", label: "Account overview", Icon: Gauge, badge: 5 },
-  { key: "campaigns", label: "Campaigns", Icon: Table },
+  { key: "campaigns", label: "Campaigns", Icon: Table, href: "/campaigns", activePrefix: "/campaigns" },
   { key: "reporting", label: "Ads Reporting", Icon: Newspaper },
   { key: "audiences", label: "Audiences", Icon: Users },
   { key: "adsettings", label: "Advertising settings", Icon: Megaphone },
-  { key: "billing", label: "Billing & payments", Icon: CreditCard, active: true },
+  { key: "billing", label: "Billing & payments", Icon: CreditCard, href: "/billing/invoices", activePrefix: "/billing" },
   { key: "events", label: "Events Manager", Icon: Share2 },
   { key: "alltools", label: "All tools", Icon: Menu },
 ];
@@ -62,6 +71,9 @@ export default function LeftRail({
   businessName: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const pathname = usePathname();
+  const isActive = (prefix?: string) =>
+    !!prefix && pathname.startsWith(prefix);
 
   return (
     <div
@@ -84,15 +96,26 @@ export default function LeftRail({
 
           <div className={styles.railDivider} />
 
-          {NAV.map(({ key, Icon, badge, active }) => (
-            <span
-              key={key}
-              className={`${styles.railIcon} ${active ? styles.railActive : ""}`}
-            >
-              <Icon size={22} strokeWidth={1.5} />
-              {badge ? <span className={styles.badge}>{badge}</span> : null}
-            </span>
-          ))}
+          {NAV.map(({ key, Icon, badge, href, activePrefix }) => {
+            const cls = `${styles.railIcon} ${
+              isActive(activePrefix) ? styles.railActive : ""
+            }`;
+            const inner = (
+              <>
+                <Icon size={22} strokeWidth={1.5} />
+                {badge ? <span className={styles.badge}>{badge}</span> : null}
+              </>
+            );
+            return href ? (
+              <Link key={key} href={href} className={cls}>
+                {inner}
+              </Link>
+            ) : (
+              <span key={key} className={cls}>
+                {inner}
+              </span>
+            );
+          })}
         </div>
 
         <div className={styles.railBottom}>
@@ -129,21 +152,31 @@ export default function LeftRail({
           </button>
 
           <ul className={styles.panelList}>
-            {NAV.map(({ key, label, Icon, badge, active }) => (
-              <li key={key}>
-                <button
-                  className={`${styles.panelItem} ${
-                    active ? styles.panelActive : ""
-                  }`}
-                >
+            {NAV.map(({ key, label, Icon, badge, href, activePrefix }) => {
+              const cls = `${styles.panelItem} ${
+                isActive(activePrefix) ? styles.panelActive : ""
+              }`;
+              const inner = (
+                <>
                   <Icon size={20} strokeWidth={1.5} className={styles.panelIcon} />
                   <span className={styles.panelLabel}>{label}</span>
                   {badge ? (
                     <span className={styles.panelBadge}>{badge}</span>
                   ) : null}
-                </button>
-              </li>
-            ))}
+                </>
+              );
+              return (
+                <li key={key}>
+                  {href ? (
+                    <Link href={href} className={cls}>
+                      {inner}
+                    </Link>
+                  ) : (
+                    <button className={cls}>{inner}</button>
+                  )}
+                </li>
+              );
+            })}
           </ul>
 
           <div className={styles.panelSectionLabel}>Frequently used</div>
