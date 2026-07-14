@@ -1,0 +1,28 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.yellow {
+  background: var(--pill-yellow-bg);
+  border: 1px solid var(--pill-yellow-border);
+  color: var(--pill-yellow-text);
+}
+
+.green {
+  background: var(--pill-green-bg);
+  border: 1px solid var(--pill-green-border);
+  color: var(--pill-green-text);
+}
+
+.red {
+  background: var(--pill-red-bg);
+  border: 1px solid var(--pill-red-border);
+  color: var(--pill-red-text);
+}

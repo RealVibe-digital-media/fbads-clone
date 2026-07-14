@@ -1,0 +1,121 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  background: transparent;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--text);
+}
+
+.selectorWrap {
+  position: relative;
+}
+
+.selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  line-height: 20px;
+}
+
+.selector:hover {
+  background: var(--hover-gray);
+}
+
+.bizAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #e4e6eb;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bizName {
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 240px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  padding: 4px;
+  z-index: 40;
+}
+
+.dropdownItem {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.dropdownItem:hover {
+  background: var(--hover-gray);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e4e6eb;
+}
+
+.fbBadge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0866ff;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--bg);
+  line-height: 1;
+}

@@ -1,0 +1,68 @@
+:root {
+  /* ---- Global tokens (from live DOM inspection) ---- */
+  --text: #1c2b33; /* rgb(28, 43, 51) */
+  --bg: #ffffff;
+  --border: #cbd2d9; /* rgb(203, 210, 217) */
+  --blue: #0064e0; /* Meta business blue */
+  --muted: #65676b; /* secondary / muted text */
+  --active-bg: #ebf2fa; /* active sidebar tint */
+  --hover-gray: #f2f4f7;
+  --amber: #f7a800;
+
+  /* status pills — pale fill + matching outline + saturated text */
+  --pill-yellow-bg: #fdf6ec;
+  --pill-yellow-border: #e6a94e;
+  --pill-yellow-text: #b4690e;
+  --pill-green-bg: #eaf6ee;
+  --pill-green-border: #7cc295;
+  --pill-green-text: #1e6b34;
+  --pill-red-bg: #fdeeec;
+  --pill-red-border: #e39b93;
+  --pill-red-text: #a01b12;
+
+  --radius: 8px;
+  --pad: 16px;
+
+  --font-stack: var(--font-slate), "Optimistic 95", system-ui, -apple-system,
+    "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20px;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 700;
+}

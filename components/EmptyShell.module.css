@@ -1,0 +1,17 @@
+.wrap {
+  padding: 0;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 22px;
+  margin-bottom: 8px;
+}
+
+.note {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}

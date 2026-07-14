@@ -1,0 +1,105 @@
+.tableWrap {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.headRow {
+  border-bottom: 1px solid var(--border);
+}
+
+.th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 16px;
+}
+
+.colInvoice {
+  width: 28%;
+}
+
+.colDate {
+  width: 18%;
+}
+
+.colAmount {
+  width: 18%;
+}
+
+.colStatus {
+  width: 18%;
+}
+
+.colAction {
+  width: 18%;
+  text-align: right;
+  padding-right: 16px;
+}
+
+.row {
+  border-bottom: 1px solid var(--border);
+}
+
+.row:hover {
+  background: #fafbfc;
+}
+
+.td {
+  padding: 8px 12px;
+  height: 44px;
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 20px;
+}
+
+.invoiceLink {
+  color: var(--blue);
+  font-size: 14px;
+}
+
+.invoiceLink:hover {
+  text-decoration: underline;
+}
+
+.billableId {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 16px;
+}
+
+.colAmount.td,
+.td.colAmount {
+  font-weight: 400;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.actionBtn:hover {
+  background: var(--hover-gray);
+}
+
+.empty {
+  padding: 24px 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
