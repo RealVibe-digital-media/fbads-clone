@@ -7,6 +7,8 @@ import {
   RefreshCw,
   MoreHorizontal,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CircleDot,
   Play,
   Flag,
@@ -18,8 +20,10 @@ import {
   Calendar,
   Copy,
   Pencil,
+  Trash2,
   Sparkles,
   FlaskConical,
+  Eye,
   Columns3,
   Layers,
   Download,
@@ -30,11 +34,15 @@ import {
   Info,
   BarChart3,
   X,
-  GitCompareArrows,
 } from "lucide-react";
-import { adSets as seed, adSetsMeta, type AdSet } from "@/data/adsets";
+import {
+  adsForAdSet,
+  adsForCampaign,
+  adsMeta,
+  type AdRow,
+} from "@/data/ads";
 import { fmtInt, fmtMoney } from "@/data/campaigns";
-import styles from "./page.module.css";
+import styles from "./AdsView.module.css";
 
 const FILTER_PILLS = [
   { key: "all", label: "All ads", Icon: LayoutGrid, active: true },
@@ -44,18 +52,57 @@ const FILTER_PILLS = [
 ];
 
 const DELIVERY: Record<
-  AdSet["delivery"],
+  AdRow["delivery"],
   { label: string; dotClass: string; muted?: boolean }
 > = {
   learning: { label: "Learning", dotClass: "dotActive" },
-  learning_limited: { label: "Learning limited", dotClass: "dotLimited" },
+  preparing: { label: "Preparing", dotClass: "dotPreparing" },
   active: { label: "Active", dotClass: "dotActive" },
   off: { label: "Off", dotClass: "dotOff", muted: true },
 };
 
-export default function AdSetsPage() {
-  const [rows, setRows] = useState<AdSet[]>(seed);
-  const [checked, setChecked] = useState<Set<string>>(new Set());
+const NUM_HEADERS: { label: string; sub?: string }[] = [
+  { label: "Results" },
+  { label: "Cost per result" },
+  { label: "Budget", sub: "Ad set" },
+  { label: "Amount spent" },
+  { label: "Impressions" },
+  { label: "Reach" },
+  { label: "Frequency" },
+  { label: "CPM (cost per 1,000…" },
+  { label: "Link clicks" },
+  { label: "Ends" },
+  { label: "Attribution setting" },
+  { label: "Bid strategy", sub: "Ad set" },
+  { label: "Last significant edit" },
+  { label: "Quality ranking" },
+  { label: "Engage… rate…" },
+  { label: "Conver… rate…" },
+  { label: "Ad set name" },
+];
+
+function RankCell({ value, sub }: { value: string | null; sub?: string }) {
+  return (
+    <div className={styles.metric}>
+      <span>{value ?? "—"}</span>
+      {sub ? <span className={styles.subLabel}>{sub}</span> : null}
+    </div>
+  );
+}
+
+export default function AdsView({
+  variant,
+}: {
+  variant: "adset" | "campaign";
+}) {
+  const isAdset = variant === "adset";
+  const [rows, setRows] = useState<AdRow[]>(
+    isAdset ? adsForAdSet : adsForCampaign
+  );
+  // In the reference the 2nd row is selected on the ad-set variant
+  const [checked, setChecked] = useState<Set<string>>(
+    new Set(isAdset ? ["d2"] : [])
+  );
 
   const toggleRow = (id: string) =>
     setRows((rs) =>
@@ -74,34 +121,29 @@ export default function AdSetsPage() {
       return n;
     });
 
-  const truncatedAccount = `${adSetsMeta.accountName} (${adSetsMeta.accountId.slice(0, 14)}…`;
+  const truncatedAccount = `${adsMeta.accountName} (${adsMeta.accountId.slice(0, 14)}…`;
+  const total = isAdset ? adsMeta.adSetTotalAds : adsMeta.campaignTotalAds;
 
   return (
     <div className={styles.page}>
       {/* ── Top header ─────────────────────────────────────── */}
       <header className={styles.topBar}>
         <div className={styles.topLeft}>
-          <h1 className={styles.title}>Ad sets</h1>
-
+          <h1 className={styles.title}>Ads</h1>
           <button className={styles.bizChip} aria-label="Business">
             <span className={styles.bizAvatar}>R</span>
           </button>
-
           <button className={styles.accountSelector}>
             <Building2 size={16} strokeWidth={1.5} />
             <span className={styles.accountName}>{truncatedAccount}</span>
             <ChevronDown size={14} strokeWidth={1.5} />
           </button>
-
           <button className={styles.oppChip}>
-            <span className={styles.oppScore}>
-              {adSetsMeta.opportunityScore}
-            </span>
+            <span className={styles.oppScore}>{adsMeta.opportunityScore}</span>
             <span>Opportunity score</span>
             <ChevronDown size={14} strokeWidth={1.5} />
           </button>
         </div>
-
         <div className={styles.topRight}>
           <span className={styles.updatedText}>Updated just now</span>
           <button className={styles.iconGhostBtn} aria-label="Refresh">
@@ -126,7 +168,7 @@ export default function AdSetsPage() {
         </div>
       </header>
 
-      {/* ── Filter pills row ───────────────────────────────── */}
+      {/* ── Filter pills ───────────────────────────────────── */}
       <div className={styles.pillsRow}>
         <div className={styles.pillsLeft}>
           {FILTER_PILLS.map(({ key, label, Icon, active, caret }) => (
@@ -152,7 +194,7 @@ export default function AdSetsPage() {
         </div>
       </div>
 
-      {/* ── Search row ─────────────────────────────────────── */}
+      {/* ── Search ─────────────────────────────────────────── */}
       <div className={styles.searchRow}>
         <input
           type="text"
@@ -161,7 +203,7 @@ export default function AdSetsPage() {
         />
       </div>
 
-      {/* ── Level tabs + date range ────────────────────────── */}
+      {/* ── Level tabs + pagination + date ─────────────────── */}
       <div className={styles.tabsRow}>
         <div className={styles.tabs}>
           <Link href="/campaigns" className={styles.tab}>
@@ -172,24 +214,51 @@ export default function AdSetsPage() {
               <X size={12} strokeWidth={2} />
             </span>
           </Link>
+          <Link href="/campaigns/adsets" className={styles.tab}>
+            <LayoutGrid size={16} strokeWidth={1.5} />
+            <span>{isAdset ? "Ad sets" : "Ad sets for 1 Campaign"}</span>
+            {isAdset && (
+              <span className={styles.selectedChip}>
+                1 selected
+                <X size={12} strokeWidth={2} />
+              </span>
+            )}
+          </Link>
           <button className={`${styles.tab} ${styles.tabActive}`}>
-            <LayoutGrid
+            <ImageIcon
               size={16}
               strokeWidth={1.5}
               className={styles.tabIconActive}
             />
-            <span>Ad sets for 1 Campaign</span>
+            <span>{isAdset ? "Ads" : "Ads for 1 Campaign"}</span>
+            {isAdset && (
+              <span className={styles.selectedChip}>
+                1 selected
+                <X size={12} strokeWidth={2} />
+              </span>
+            )}
           </button>
-          <Link href="/campaigns/ads" className={styles.tab}>
-            <ImageIcon size={16} strokeWidth={1.5} />
-            <span>Ads for 1 Campaign</span>
-          </Link>
         </div>
-        <button className={styles.dateBtn}>
-          <Calendar size={16} strokeWidth={1.5} />
-          <span>{adSetsMeta.dateRange}</span>
-          <ChevronDown size={14} strokeWidth={1.5} />
-        </button>
+        <div className={styles.tabsRight}>
+          {!isAdset && (
+            <span className={styles.pagination}>
+              <span className={styles.pageRange}>
+                {adsMeta.campaignPageRange}
+              </span>
+              <button className={styles.pageBtn} aria-label="Previous page">
+                <ChevronLeft size={14} strokeWidth={1.5} />
+              </button>
+              <button className={styles.pageBtn} aria-label="Next page">
+                <ChevronRight size={14} strokeWidth={1.5} />
+              </button>
+            </span>
+          )}
+          <button className={styles.dateBtn}>
+            <Calendar size={16} strokeWidth={1.5} />
+            <span>{adsMeta.dateRange}</span>
+            <ChevronDown size={14} strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
 
       {/* ── Table card ─────────────────────────────────────── */}
@@ -201,14 +270,42 @@ export default function AdSetsPage() {
               <Plus size={16} strokeWidth={2} />
               <span>Create</span>
             </button>
-            <button className={styles.toolBtn} disabled>
-              <Copy size={15} strokeWidth={1.5} />
-              <span>Duplicate</span>
-            </button>
-            <button className={styles.toolBtn} disabled>
-              <Pencil size={15} strokeWidth={1.5} />
-              <span>Edit</span>
-            </button>
+            {isAdset ? (
+              <>
+                <span className={styles.splitBtn}>
+                  <button className={styles.splitMain}>
+                    <Copy size={15} strokeWidth={1.5} />
+                    <span>Duplicate</span>
+                  </button>
+                  <button className={styles.splitCaret} aria-label="Duplicate options">
+                    <ChevronDown size={14} strokeWidth={1.5} />
+                  </button>
+                </span>
+                <span className={styles.splitBtn}>
+                  <button className={styles.splitMain}>
+                    <Pencil size={15} strokeWidth={1.5} />
+                    <span>Edit</span>
+                  </button>
+                  <button className={styles.splitCaret} aria-label="Edit options">
+                    <ChevronDown size={14} strokeWidth={1.5} />
+                  </button>
+                </span>
+                <button className={styles.iconBorderBtn} aria-label="Delete">
+                  <Trash2 size={15} strokeWidth={1.5} />
+                </button>
+              </>
+            ) : (
+              <>
+                <button className={styles.toolBtn} disabled>
+                  <Copy size={15} strokeWidth={1.5} />
+                  <span>Duplicate</span>
+                </button>
+                <button className={styles.toolBtn} disabled>
+                  <Pencil size={15} strokeWidth={1.5} />
+                  <span>Edit</span>
+                </button>
+              </>
+            )}
             <button className={styles.toolBtn}>
               <Sparkles size={15} strokeWidth={1.5} />
               <span>Analyse</span>
@@ -217,6 +314,12 @@ export default function AdSetsPage() {
               <FlaskConical size={15} strokeWidth={1.5} />
               <span>A/B test</span>
             </button>
+            {isAdset && (
+              <button className={styles.toolBtn}>
+                <Eye size={15} strokeWidth={1.5} />
+                <span>Preview</span>
+              </button>
+            )}
             <button className={styles.toolBtn}>
               <span>More</span>
               <ChevronDown size={14} strokeWidth={1.5} />
@@ -258,7 +361,7 @@ export default function AdSetsPage() {
                 </th>
                 <th className={`${styles.th} ${styles.colName}`}>
                   <span className={styles.thInner}>
-                    Ad set
+                    Ad
                     <ArrowUpDown size={12} strokeWidth={1.5} className={styles.sortIcon} />
                     <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
                   </span>
@@ -276,25 +379,15 @@ export default function AdSetsPage() {
                     <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
                   </span>
                 </th>
-                {[
-                  "Results",
-                  "Cost per result",
-                  "Budget",
-                  "Amount spent",
-                  "Impressions",
-                  "Reach",
-                  "Frequency",
-                  "CPM (cost per 1,000…",
-                  "Link clicks",
-                  "Ends",
-                  "Attribution setting",
-                  "Bid strategy",
-                ].map((label) => (
+                {NUM_HEADERS.map(({ label, sub }) => (
                   <th key={label} className={`${styles.th} ${styles.thNum}`}>
-                    <span className={styles.thInner}>
-                      {label}
-                      <ArrowUpDown size={12} strokeWidth={1.5} className={styles.sortIcon} />
-                      <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
+                    <span className={styles.thStack}>
+                      <span className={styles.thInner}>
+                        {label}
+                        <ArrowUpDown size={12} strokeWidth={1.5} className={styles.sortIcon} />
+                        <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
+                      </span>
+                      {sub ? <span className={styles.thSub}>{sub}</span> : null}
                     </span>
                   </th>
                 ))}
@@ -303,13 +396,17 @@ export default function AdSetsPage() {
             <tbody>
               {rows.map((a) => {
                 const d = DELIVERY[a.delivery];
+                const isChecked = checked.has(a.id);
                 return (
-                  <tr key={a.id} className={styles.row}>
+                  <tr
+                    key={a.id}
+                    className={`${styles.row} ${isChecked ? styles.rowChecked : ""}`}
+                  >
                     <td className={`${styles.td} ${styles.colCheck}`}>
                       <input
                         type="checkbox"
                         className={styles.checkbox}
-                        checked={checked.has(a.id)}
+                        checked={isChecked}
                         onChange={() => toggleCheck(a.id)}
                       />
                     </td>
@@ -325,43 +422,17 @@ export default function AdSetsPage() {
                       </button>
                     </td>
                     <td className={`${styles.td} ${styles.colName}`}>
-                      <div className={styles.nameCell}>
-                        <span className={styles.nameLine}>
-                          <Link
-                            href="/campaigns/adsets/ads"
-                            className={styles.nameLink}
-                          >
-                            {a.name}
-                          </Link>
-                          <Pencil
-                            size={12}
-                            strokeWidth={1.5}
-                            className={styles.namePencil}
-                          />
-                        </span>
-                        {/* quick actions appear on row hover, like Ads Manager */}
-                        <span className={styles.quickActions}>
-                          <span className={styles.qaChip}>
-                            <BarChart3 size={11} strokeWidth={1.5} />
-                            Charts
-                          </span>
-                          <span className={styles.qaChip}>
-                            <Pencil size={11} strokeWidth={1.5} />
-                            Edit
-                          </span>
-                          <span className={styles.qaChip}>
-                            <Copy size={11} strokeWidth={1.5} />
-                            Duplicate
-                          </span>
-                          <span className={styles.qaChip}>
-                            <GitCompareArrows size={11} strokeWidth={1.5} />
-                            Compare
-                          </span>
-                          <span className={styles.qaChip}>
-                            <MoreHorizontal size={11} strokeWidth={1.5} />
-                          </span>
-                        </span>
-                      </div>
+                      <span className={styles.adCell}>
+                        <span
+                          className={`${styles.thumb} ${
+                            a.thumb === "photo" ? styles.thumbPhoto : styles.thumbLogo
+                          }`}
+                          aria-hidden="true"
+                        />
+                        <a href="#" className={styles.nameLink}>
+                          {a.name}
+                        </a>
+                      </span>
                     </td>
                     <td className={styles.td}>
                       <span className={styles.deliveryCell}>
@@ -400,19 +471,13 @@ export default function AdSetsPage() {
                     <td className={`${styles.td} ${styles.tdNum}`}>
                       <div className={styles.metric}>
                         <span>
-                          {a.costPerResult !== null
-                            ? fmtMoney(a.costPerResult)
-                            : "—"}
+                          {a.costPerResult !== null ? fmtMoney(a.costPerResult) : "—"}
                         </span>
                         <span className={styles.subLabel}>{a.costLabel}</span>
                       </div>
                     </td>
                     <td className={`${styles.td} ${styles.tdNum}`}>
-                      <div className={styles.metric}>
-                        <span className={styles.adsetBudget}>
-                          {a.budget !== null ? fmtMoney(a.budget) : "Using campaign…"}
-                        </span>
-                      </div>
+                      <span className={styles.adsetBudget}>Using campaign…</span>
                     </td>
                     <td className={`${styles.td} ${styles.tdNum}`}>
                       {fmtMoney(a.amountSpent)}
@@ -440,7 +505,42 @@ export default function AdSetsPage() {
                       </div>
                     </td>
                     <td className={`${styles.td} ${styles.tdNum}`}>
-                      {a.bidStrategy}
+                      <div className={styles.metric}>
+                        <span>{a.bidStrategy}</span>
+                        <span className={styles.subLabel}>{a.bidStrategySub}</span>
+                      </div>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <div className={styles.metric}>
+                        <span>{a.lastEdit}</span>
+                        <span className={styles.subLabel}>{a.lastEditSub}</span>
+                      </div>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <RankCell value={a.qualityRanking} sub={a.qualityRankingSub} />
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <RankCell
+                        value={a.engagementRanking}
+                        sub={a.engagementRankingSub}
+                      />
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <RankCell
+                        value={a.conversionRanking}
+                        sub={a.conversionRankingSub}
+                      />
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <div className={styles.metric}>
+                        <Link
+                          href="/campaigns/adsets/ads"
+                          className={styles.nameLink}
+                        >
+                          {a.adSetName}
+                        </Link>
+                        <span className={styles.subLabel}>{a.adSetSub}</span>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -451,7 +551,7 @@ export default function AdSetsPage() {
 
         {/* Footer */}
         <div className={styles.tableFooter}>
-          <span>Results from {adSetsMeta.totalAdSets} ad sets</span>
+          <span>Results from {total} ads</span>
           <Info size={13} strokeWidth={1.5} className={styles.footerInfo} />
         </div>
       </div>
