@@ -1,0 +1,757 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px 24px;
+  min-width: 0;
+}
+
+/* ── Top header ─────────────────────────────────────────── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 4px;
+}
+
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 24px;
+  margin-right: 4px;
+}
+
+.bizChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.bizAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #e4e6eb;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.accountSelector {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.accountSelector:hover,
+.bizChip:hover {
+  background: var(--hover-gray);
+}
+
+.accountName {
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oppChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px 0 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.oppChip:hover {
+  background: var(--hover-gray);
+}
+
+.oppScore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #31a24c;
+  border-left-color: #e4e6eb;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconGhostBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.iconGhostBtn:hover {
+  background: var(--hover-gray);
+}
+
+.iconBorderBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.iconBorderBtn:hover {
+  background: var(--hover-gray);
+}
+
+.reviewBtn {
+  height: 34px;
+  padding: 0 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.reviewBtn:hover {
+  background: var(--hover-gray);
+}
+
+.avatarWrap {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e4e6eb;
+}
+
+.fbBadge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0866ff;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid var(--bg);
+  line-height: 1;
+}
+
+/* ── Filter pills ───────────────────────────────────────── */
+.pillsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 8px;
+  gap: 8px;
+}
+
+.pillsLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: var(--hover-gray);
+}
+
+.pillActive {
+  border-color: var(--blue);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.seeMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--text);
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.seeMore:hover {
+  background: var(--hover-gray);
+}
+
+.pillsRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.createViewBtn {
+  height: 34px;
+  padding: 0 14px;
+  background: var(--blue);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.createViewBtn:hover {
+  background: #0058c7;
+}
+
+/* ── Search ─────────────────────────────────────────────── */
+.searchRow {
+  padding: 0 4px 10px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.searchInput::placeholder {
+  color: var(--muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* ── Level tabs + date ──────────────────────────────────── */
+.tabsRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 20px;
+  min-width: 180px;
+  background: #edf0f4;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tab:hover {
+  background: #e4e8ee;
+}
+
+.tabActive {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  margin-bottom: 4px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.dateBtn:hover {
+  background: var(--hover-gray);
+}
+
+/* ── Table card ─────────────────────────────────────────── */
+.card {
+  background: var(--bg);
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.toolbarLeft,
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.createBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  background: #0a7c42;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.createBtn:hover {
+  background: #096b39;
+}
+
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.toolBtn:hover {
+  background: var(--hover-gray);
+}
+
+/* Table */
+.tableScroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 1860px;
+  border-collapse: collapse;
+}
+
+.th {
+  position: relative;
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 16px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid #eceef1;
+  background: var(--bg);
+  white-space: nowrap;
+}
+
+.thNum {
+  text-align: right;
+}
+
+.thInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.thSorted {
+  color: var(--text);
+}
+
+.sortIcon {
+  color: #9aa2ab;
+  flex-shrink: 0;
+}
+
+.sortIconActive {
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.thCaret {
+  color: #9aa2ab;
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
+.colCheck {
+  width: 44px;
+  min-width: 44px;
+  text-align: center;
+}
+
+.colToggle {
+  width: 64px;
+  min-width: 64px;
+}
+
+.colName {
+  min-width: 280px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+.row {
+  border-bottom: 1px solid #eceef1;
+}
+
+.row:hover {
+  background: #fafbfc;
+}
+
+.td {
+  padding: 10px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 16px;
+  vertical-align: middle;
+  height: 56px;
+}
+
+.tdNum {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Toggle switch (small, like Ads Manager) */
+.switch {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border: none;
+  border-radius: 999px;
+  background: #b0b8c1;
+  padding: 0;
+  transition: background 0.15s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.switchOn {
+  background: var(--blue);
+}
+
+.knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.switchOn .knob {
+  transform: translateX(14px);
+}
+
+.nameLink {
+  color: var(--blue);
+  font-size: 13px;
+}
+
+.nameLink:hover {
+  text-decoration: underline;
+}
+
+.deliveryCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotActive {
+  background: #31a24c;
+}
+
+.dotOff {
+  background: #b0b8c1;
+}
+
+.mutedText {
+  color: var(--muted);
+}
+
+.actionsCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ebf2fa;
+  color: var(--blue);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.warnChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fdf6ec;
+  border: 1px solid #e6a94e;
+  color: #b4690e;
+  font-size: 12px;
+}
+
+.exportIcon {
+  color: #9aa2ab;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.subLabel {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.adsetBudget {
+  display: inline-block;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Footer */
+.tableFooter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  font-size: 13px;
+  color: var(--text);
+  border-top: 1px solid #eceef1;
+}
+
+.footerInfo {
+  color: var(--muted);
+}
+
+/* ── Ad sets page additions ─────────────────────────────── */
+.updatedText {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.selectedChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.tabIconActive {
+  color: var(--blue);
+}
+
+.dotLimited {
+  background: #e6a94e;
+}
+
+/* name cell + hover quick actions (like Ads Manager) */
+.nameCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.nameLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.namePencil {
+  color: var(--muted);
+  opacity: 0;
+  flex-shrink: 0;
+}
+
+.row:hover .namePencil {
+  opacity: 1;
+}
+
+.quickActions {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.row:hover .quickActions {
+  display: inline-flex;
+}
+
+.qaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  font-size: 11px;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.qaChip:hover {
+  background: var(--hover-gray);
+}
+
+.toolBtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* wider table: two extra columns */
+.table {
+  min-width: 2200px;
+}

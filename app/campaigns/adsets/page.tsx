@@ -25,19 +25,15 @@ import {
   Download,
   ArrowUpDown,
   ArrowUp,
-  AlertTriangle,
   Megaphone,
   Building2,
   Info,
   BarChart3,
+  X,
+  GitCompareArrows,
 } from "lucide-react";
-import {
-  campaigns as seed,
-  campaignsMeta,
-  fmtInt,
-  fmtMoney,
-  type Campaign,
-} from "@/data/campaigns";
+import { adSets as seed, adSetsMeta, type AdSet } from "@/data/adsets";
+import { fmtInt, fmtMoney } from "@/data/campaigns";
 import styles from "./page.module.css";
 
 const FILTER_PILLS = [
@@ -47,19 +43,25 @@ const FILTER_PILLS = [
   { key: "delivery", label: "Had delivery", Icon: Flag },
 ];
 
-export default function CampaignsPage() {
-  const [rows, setRows] = useState<Campaign[]>(seed);
+const DELIVERY: Record<
+  AdSet["delivery"],
+  { label: string; dotClass: string; muted?: boolean }
+> = {
+  learning: { label: "Learning", dotClass: "dotActive" },
+  learning_limited: { label: "Learning limited", dotClass: "dotLimited" },
+  active: { label: "Active", dotClass: "dotActive" },
+  off: { label: "Off", dotClass: "dotOff", muted: true },
+};
+
+export default function AdSetsPage() {
+  const [rows, setRows] = useState<AdSet[]>(seed);
   const [checked, setChecked] = useState<Set<string>>(new Set());
 
   const toggleRow = (id: string) =>
     setRows((rs) =>
       rs.map((r) =>
         r.id === id
-          ? {
-              ...r,
-              on: !r.on,
-              delivery: !r.on ? "active" : "off",
-            }
+          ? { ...r, on: !r.on, delivery: !r.on ? "active" : "off" }
           : r
       )
     );
@@ -72,14 +74,14 @@ export default function CampaignsPage() {
       return n;
     });
 
-  const truncatedAccount = `${campaignsMeta.accountName} (${campaignsMeta.accountId.slice(0, 14)}…`;
+  const truncatedAccount = `${adSetsMeta.accountName} (${adSetsMeta.accountId.slice(0, 14)}…`;
 
   return (
     <div className={styles.page}>
       {/* ── Top header ─────────────────────────────────────── */}
       <header className={styles.topBar}>
         <div className={styles.topLeft}>
-          <h1 className={styles.title}>Campaigns</h1>
+          <h1 className={styles.title}>Ad sets</h1>
 
           <button className={styles.bizChip} aria-label="Business">
             <span className={styles.bizAvatar}>R</span>
@@ -93,7 +95,7 @@ export default function CampaignsPage() {
 
           <button className={styles.oppChip}>
             <span className={styles.oppScore}>
-              {campaignsMeta.opportunityScore}
+              {adSetsMeta.opportunityScore}
             </span>
             <span>Opportunity score</span>
             <ChevronDown size={14} strokeWidth={1.5} />
@@ -101,6 +103,7 @@ export default function CampaignsPage() {
         </div>
 
         <div className={styles.topRight}>
+          <span className={styles.updatedText}>Updated just now</span>
           <button className={styles.iconGhostBtn} aria-label="Refresh">
             <RefreshCw size={16} strokeWidth={1.5} />
           </button>
@@ -161,22 +164,30 @@ export default function CampaignsPage() {
       {/* ── Level tabs + date range ────────────────────────── */}
       <div className={styles.tabsRow}>
         <div className={styles.tabs}>
-          <button className={`${styles.tab} ${styles.tabActive}`}>
+          <Link href="/campaigns" className={styles.tab}>
             <Folder size={16} strokeWidth={1.5} />
             <span>Campaigns</span>
-          </button>
-          <button className={styles.tab}>
-            <LayoutGrid size={16} strokeWidth={1.5} />
-            <span>Ad sets</span>
+            <span className={styles.selectedChip}>
+              1 selected
+              <X size={12} strokeWidth={2} />
+            </span>
+          </Link>
+          <button className={`${styles.tab} ${styles.tabActive}`}>
+            <LayoutGrid
+              size={16}
+              strokeWidth={1.5}
+              className={styles.tabIconActive}
+            />
+            <span>Ad sets for 1 Campaign</span>
           </button>
           <button className={styles.tab}>
             <ImageIcon size={16} strokeWidth={1.5} />
-            <span>Ads</span>
+            <span>Ads for 1 Campaign</span>
           </button>
         </div>
         <button className={styles.dateBtn}>
           <Calendar size={16} strokeWidth={1.5} />
-          <span>{campaignsMeta.dateRange}</span>
+          <span>{adSetsMeta.dateRange}</span>
           <ChevronDown size={14} strokeWidth={1.5} />
         </button>
       </div>
@@ -190,11 +201,11 @@ export default function CampaignsPage() {
               <Plus size={16} strokeWidth={2} />
               <span>Create</span>
             </button>
-            <button className={styles.toolBtn}>
+            <button className={styles.toolBtn} disabled>
               <Copy size={15} strokeWidth={1.5} />
               <span>Duplicate</span>
             </button>
-            <button className={styles.toolBtn}>
+            <button className={styles.toolBtn} disabled>
               <Pencil size={15} strokeWidth={1.5} />
               <span>Edit</span>
             </button>
@@ -247,14 +258,14 @@ export default function CampaignsPage() {
                 </th>
                 <th className={`${styles.th} ${styles.colName}`}>
                   <span className={styles.thInner}>
-                    Campaign
+                    Ad set
                     <ArrowUpDown size={12} strokeWidth={1.5} className={styles.sortIcon} />
                     <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
                   </span>
                 </th>
                 <th className={styles.th}>
                   <span className={styles.thInner}>
-                    <span className={styles.thSorted}>Delivery</span>
+                    Delivery
                     <ArrowUp size={12} strokeWidth={1.5} className={styles.sortIconActive} />
                     <ChevronDown size={12} strokeWidth={1.5} className={styles.thCaret} />
                   </span>
@@ -276,6 +287,8 @@ export default function CampaignsPage() {
                   "CPM (cost per 1,000…",
                   "Link clicks",
                   "Ends",
+                  "Attribution setting",
+                  "Bid strategy",
                 ].map((label) => (
                   <th key={label} className={`${styles.th} ${styles.thNum}`}>
                     <span className={styles.thInner}>
@@ -288,132 +301,154 @@ export default function CampaignsPage() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((c) => (
-                <tr key={c.id} className={styles.row}>
-                  <td className={`${styles.td} ${styles.colCheck}`}>
-                    <input
-                      type="checkbox"
-                      className={styles.checkbox}
-                      checked={checked.has(c.id)}
-                      onChange={() => toggleCheck(c.id)}
-                    />
-                  </td>
-                  <td className={`${styles.td} ${styles.colToggle}`}>
-                    <button
-                      type="button"
-                      role="switch"
-                      aria-checked={c.on}
-                      className={`${styles.switch} ${c.on ? styles.switchOn : ""}`}
-                      onClick={() => toggleRow(c.id)}
-                    >
-                      <span className={styles.knob} />
-                    </button>
-                  </td>
-                  <td className={`${styles.td} ${styles.colName}`}>
-                    <Link href="/campaigns/adsets" className={styles.nameLink}>
-                      {c.name}
-                    </Link>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.deliveryCell}>
-                      <span
-                        className={`${styles.dot} ${
-                          c.delivery === "active" ? styles.dotActive : styles.dotOff
-                        }`}
+              {rows.map((a) => {
+                const d = DELIVERY[a.delivery];
+                return (
+                  <tr key={a.id} className={styles.row}>
+                    <td className={`${styles.td} ${styles.colCheck}`}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkbox}
+                        checked={checked.has(a.id)}
+                        onChange={() => toggleCheck(a.id)}
                       />
-                      <span
-                        className={
-                          c.delivery === "active" ? undefined : styles.mutedText
-                        }
+                    </td>
+                    <td className={`${styles.td} ${styles.colToggle}`}>
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={a.on}
+                        className={`${styles.switch} ${a.on ? styles.switchOn : ""}`}
+                        onClick={() => toggleRow(a.id)}
                       >
-                        {c.delivery === "active" ? "Active" : "Off"}
-                      </span>
-                    </span>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.actionsCell}>
-                      {c.warnings ? (
-                        <span className={styles.warnChip}>
-                          <AlertTriangle size={12} strokeWidth={1.5} />
-                          {c.warnings}
+                        <span className={styles.knob} />
+                      </button>
+                    </td>
+                    <td className={`${styles.td} ${styles.colName}`}>
+                      <div className={styles.nameCell}>
+                        <span className={styles.nameLine}>
+                          <a href="#" className={styles.nameLink}>
+                            {a.name}
+                          </a>
+                          <Pencil
+                            size={12}
+                            strokeWidth={1.5}
+                            className={styles.namePencil}
+                          />
                         </span>
-                      ) : null}
-                      {c.recommendations ? (
-                        <span className={styles.recChip}>
-                          <Megaphone size={12} strokeWidth={1.5} />
-                          {c.warnings
-                            ? c.recommendations
-                            : `${c.recommendations} recommendations`}
+                        {/* quick actions appear on row hover, like Ads Manager */}
+                        <span className={styles.quickActions}>
+                          <span className={styles.qaChip}>
+                            <BarChart3 size={11} strokeWidth={1.5} />
+                            Charts
+                          </span>
+                          <span className={styles.qaChip}>
+                            <Pencil size={11} strokeWidth={1.5} />
+                            Edit
+                          </span>
+                          <span className={styles.qaChip}>
+                            <Copy size={11} strokeWidth={1.5} />
+                            Duplicate
+                          </span>
+                          <span className={styles.qaChip}>
+                            <GitCompareArrows size={11} strokeWidth={1.5} />
+                            Compare
+                          </span>
+                          <span className={styles.qaChip}>
+                            <MoreHorizontal size={11} strokeWidth={1.5} />
+                          </span>
                         </span>
-                      ) : null}
-                      {c.hasExport ? (
-                        <Download
-                          size={14}
-                          strokeWidth={1.5}
-                          className={styles.exportIcon}
-                        />
-                      ) : null}
-                      {!c.warnings && !c.recommendations && !c.hasExport
-                        ? "—"
-                        : null}
-                    </span>
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    <div className={styles.metric}>
-                      <span>{c.results !== null ? fmtInt(c.results) : "—"}</span>
-                      <span className={styles.subLabel}>{c.resultLabel}</span>
-                    </div>
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    <div className={styles.metric}>
-                      <span>
-                        {c.costPerResult !== null ? fmtMoney(c.costPerResult) : "—"}
-                      </span>
-                      <span className={styles.subLabel}>{c.costLabel}</span>
-                    </div>
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.budget !== null ? (
-                      <div className={styles.metric}>
-                        <span>{fmtMoney(c.budget)}</span>
-                        <span className={styles.subLabel}>Daily</span>
                       </div>
-                    ) : (
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.deliveryCell}>
+                        <span className={`${styles.dot} ${styles[d.dotClass]}`} />
+                        <span className={d.muted ? styles.mutedText : undefined}>
+                          {d.label}
+                        </span>
+                      </span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.actionsCell}>
+                        {a.recommendations ? (
+                          <span className={styles.recChip}>
+                            <Megaphone size={12} strokeWidth={1.5} />
+                            {a.recommendations} recommendation
+                            {a.recommendations > 1 ? "s" : ""}
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                        {a.hasExport ? (
+                          <Download
+                            size={14}
+                            strokeWidth={1.5}
+                            className={styles.exportIcon}
+                          />
+                        ) : null}
+                      </span>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <div className={styles.metric}>
+                        <span>{a.results !== null ? fmtInt(a.results) : "—"}</span>
+                        <span className={styles.subLabel}>{a.resultLabel}</span>
+                      </div>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <div className={styles.metric}>
+                        <span>
+                          {a.costPerResult !== null
+                            ? fmtMoney(a.costPerResult)
+                            : "—"}
+                        </span>
+                        <span className={styles.subLabel}>{a.costLabel}</span>
+                      </div>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
                       <div className={styles.metric}>
                         <span className={styles.adsetBudget}>
-                          Using ad set bu…
+                          {a.budget !== null ? fmtMoney(a.budget) : "Using campaign…"}
                         </span>
                       </div>
-                    )}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {fmtMoney(c.amountSpent)}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.impressions !== null ? fmtInt(c.impressions) : "—"}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.reach !== null ? fmtInt(c.reach) : "—"}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.frequency !== null ? c.frequency.toFixed(2) : "—"}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.cpm !== null ? fmtMoney(c.cpm) : "—"}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>
-                    {c.linkClicks !== null ? fmtInt(c.linkClicks) : "—"}
-                  </td>
-                  <td className={`${styles.td} ${styles.tdNum}`}>{c.ends}</td>
-                </tr>
-              ))}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {fmtMoney(a.amountSpent)}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.impressions !== null ? fmtInt(a.impressions) : "—"}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.reach !== null ? fmtInt(a.reach) : "—"}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.frequency !== null ? a.frequency.toFixed(2) : "—"}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.cpm !== null ? fmtMoney(a.cpm) : "—"}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.linkClicks !== null ? fmtInt(a.linkClicks) : "—"}
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>{a.ends}</td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      <div className={styles.metric}>
+                        <span>{a.attribution}</span>
+                        <span className={styles.subLabel}>{a.attributionSub}</span>
+                      </div>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdNum}`}>
+                      {a.bidStrategy}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         {/* Footer */}
         <div className={styles.tableFooter}>
-          <span>Results from {campaignsMeta.totalCampaigns} campaigns</span>
+          <span>Results from {adSetsMeta.totalAdSets} ad sets</span>
           <Info size={13} strokeWidth={1.5} className={styles.footerInfo} />
         </div>
       </div>
