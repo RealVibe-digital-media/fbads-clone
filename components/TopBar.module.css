@@ -98,8 +98,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  object-fit: cover;
-  background: #e4e6eb;
+  object-fit: contain;
+  background: #fff;
 }
 
 .fbBadge {

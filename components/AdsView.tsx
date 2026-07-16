@@ -155,7 +155,7 @@ export default function AdsView({
           </button>
           <div className={styles.avatarWrap}>
             <Image
-              src="/profile.png"
+              src="/realvibe-logo.png"
               alt="Profile"
               width={32}
               height={32}

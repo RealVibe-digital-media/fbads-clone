@@ -1,0 +1,278 @@
+.page {
+  font-family: var(--font-fb), system-ui, -apple-system, "Segoe UI", Helvetica,
+    Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  color: #1c1e21;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* ---------------- Left half ---------------- */
+.left {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 40px 40px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  position: absolute;
+  top: 40px;
+  left: 44px;
+  width: 44px;
+  height: 44px;
+  display: block;
+}
+
+.collageWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.collage {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.headline {
+  position: absolute;
+  left: 48px;
+  bottom: 56px;
+  margin: 0;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+  color: #1c2b33;
+}
+
+.hl {
+  color: #0866ff;
+}
+
+/* ---------------- Right half ---------------- */
+.right {
+  flex: 0 0 44%;
+  max-width: 720px;
+  border-left: 1px solid #dadde1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.card {
+  width: 320px;
+  max-width: 100%;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.back {
+  width: 24px;
+  height: 24px;
+  color: #1c1e21;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.cardTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1c1e21;
+}
+
+.field {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #ccd0d5;
+  border-radius: 11px;
+  padding: 0 16px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #1c1e21;
+  background: #fff;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.field::placeholder {
+  color: #8a8d91;
+}
+
+.field:focus {
+  border-color: #0866ff;
+  box-shadow: 0 0 0 2px rgba(8, 102, 255, 0.18);
+}
+
+.error {
+  color: #dc3545;
+  font-size: 13px;
+  margin: -4px 0 10px;
+  min-height: 16px;
+}
+
+.loginBtn {
+  width: 100%;
+  height: 48px;
+  background: #0866ff;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.loginBtn:hover {
+  background: #0a5fe0;
+}
+
+.loginBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.forgot {
+  display: block;
+  text-align: center;
+  color: #0866ff;
+  font-size: 15px;
+  margin-top: 18px;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.createWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.createBtn {
+  width: 100%;
+  height: 48px;
+  background: #fff;
+  color: #0866ff;
+  border: 1px solid #0866ff;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.createBtn:hover {
+  background: #f5f9ff;
+}
+
+.metaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.metaLogo {
+  height: 20px;
+  width: auto;
+  opacity: 0.95;
+}
+
+/* ---------------- Footer ---------------- */
+.footer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 24px 34px;
+  width: 100%;
+}
+
+.langs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.langCurrent {
+  color: #1c1e21;
+  font-weight: 700;
+}
+
+.lang {
+  color: #1c1e21;
+}
+
+.lang:hover {
+  text-decoration: underline;
+}
+
+.moreLangs {
+  color: #1c1e21;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: #737373;
+}
+
+.links a {
+  color: #737373;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+  }
+  .left {
+    padding: 72px 24px 24px;
+  }
+  .headline {
+    position: static;
+    margin-top: 24px;
+    font-size: 40px;
+    text-align: center;
+  }
+  .right {
+    flex: 1 1 auto;
+    max-width: none;
+    border-left: none;
+    border-top: 1px solid #dadde1;
+  }
+}

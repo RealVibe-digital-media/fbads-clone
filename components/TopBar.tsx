@@ -38,7 +38,7 @@ export default function TopBar({ businessName }: { businessName: string }) {
       <div className={styles.right}>
         <div className={styles.avatarWrap}>
           <Image
-            src="/profile.png"
+            src="/realvibe-logo.png"
             alt="Profile"
             width={36}
             height={36}

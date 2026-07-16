@@ -19,6 +19,33 @@ const slate = localFont({
   display: "swap",
 });
 
+const facebookSans = localFont({
+  src: [
+    {
+      path: "../fonts/FacebookSansLight.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/FacebookSansRegular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/FacebookSansBold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/FacebookSansHeavy.ttf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-fb",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Billing & payments — Meta Ads Manager",
   description: "Invoices",
@@ -30,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={slate.variable}>
+    <html lang="en" className={`${slate.variable} ${facebookSans.variable}`}>
       <body>{children}</body>
     </html>
   );
