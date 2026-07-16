@@ -1,25 +1,36 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  let email = "";
   let password = "";
   try {
     const body = await req.json();
+    email = typeof body?.email === "string" ? body.email : "";
     password = typeof body?.password === "string" ? body.password : "";
   } catch {
     return NextResponse.json({ error: "Bad request" }, { status: 400 });
   }
 
-  const expected = process.env.SITE_PASSWORD;
-  if (!expected) {
+  const expectedEmail = process.env.SITE_EMAIL;
+  const expectedPassword = process.env.SITE_PASSWORD;
+  if (!expectedEmail || !expectedPassword) {
     return NextResponse.json(
-      { error: "Login is not configured. Set SITE_PASSWORD in .env.local." },
+      {
+        error:
+          "Login is not configured. Set SITE_EMAIL and SITE_PASSWORD in .env.local.",
+      },
       { status: 500 },
     );
   }
 
-  if (password !== expected) {
+  const emailOk =
+    email.trim().toLowerCase() === expectedEmail.trim().toLowerCase();
+  if (!emailOk || password !== expectedPassword) {
     return NextResponse.json(
-      { error: "The password you've entered is incorrect." },
+      {
+        error:
+          "The email or password that you've entered doesn't match any account.",
+      },
       { status: 401 },
     );
   }
