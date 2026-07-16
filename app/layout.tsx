@@ -47,8 +47,8 @@ const facebookSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Billing & payments — Meta Ads Manager",
-  description: "Invoices",
+  title: "Facebook",
+  description: "Facebook",
 };
 
 export default function RootLayout({
