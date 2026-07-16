@@ -844,16 +844,16 @@
   border-radius: 4px;
   flex-shrink: 0;
   border: 1px solid #e4e6eb;
+  object-fit: cover;
+  display: block;
 }
 
 .thumbPhoto {
-  background:
-    linear-gradient(180deg, #2c3e5d 0%, #4a5d82 45%, #c98d5a 75%, #22293a 100%);
+  background: #22293a;
 }
 
 .thumbLogo {
-  background:
-    radial-gradient(circle at 50% 50%, #e8c766 0%, #c89b3c 38%, #1e4d3b 42%, #17382c 100%);
+  background: #17382c;
 }
 
 /* Preparing = hollow dot */

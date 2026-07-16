@@ -423,10 +423,13 @@ export default function AdsView({
                     </td>
                     <td className={`${styles.td} ${styles.colName}`}>
                       <span className={styles.adCell}>
-                        <span
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           className={`${styles.thumb} ${
                             a.thumb === "photo" ? styles.thumbPhoto : styles.thumbLogo
                           }`}
+                          src={a.thumb === "photo" ? "/ad-static.jpg" : "/ad-logo.jpg"}
+                          alt=""
                           aria-hidden="true"
                         />
                         <a href="#" className={styles.nameLink}>
